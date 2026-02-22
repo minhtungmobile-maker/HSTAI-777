@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSTAI 777 - AI Sales Agent Ultimate</title>
+    
+    <!-- Auto Full Resources (CDN) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #fff; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .chat-bubble-user { background: #3b82f6; color: white; border-radius: 12px 12px 0 12px; }
+        .chat-bubble-ai { background: #1e293b; color: #e2e8f0; border-radius: 12px 12px 12px 0; border: 1px solid #334155; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { ShoppingCart, MessageSquare, BarChart3, CreditCard, Zap, CheckCircle, Menu, X, Send } = lucide;
+
+        // --- COMPONENT: LANDING PAGE ---
+        const LandingPage = ({ onEnter }) => (
+            <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center fade-in relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2832&auto=format&fit=crop')] opacity-10 bg-cover bg-center"></div>
+                
+                <div className="z-10 max-w-4xl">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-sm mb-6">
+                        <Zap size={16} /> HSTAI 777 - Thế hệ AI Sales mới
+                    </div>
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+                        Bán hàng tự động <br/>
+                        <span className="gradient-text">Doanh thu vô hạn</span>
+                    </h1>
+                    <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+                        Hệ sinh thái AI Sales Agent toàn diện: Landing Page tự sinh, Chatbot 24/7, Thanh toán & CRM trong một nền tảng duy nhất.
+                    </p>
+                    
+                    <div className="flex flex-col md:flex-row gap-4 justify-center">
+                        <button onClick={onEnter} className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2">
+                            <ShoppingCart size={20} /> Trải nghiệm Demo Ngay
+                        </button>
+                        <button className="px-8 py-4 glass-panel hover:bg-slate-800 text-white rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2">
+                            <BarChart3 size={20} /> Xem Báo Cáo
+                        </button>
+                    </div>
+
+                    <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                        <div className="p-6 glass-panel rounded-2xl">
+                            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-4"><MessageSquare /></div>
+                            <h3 className="text-xl font-bold mb-2">AI Chatbot 24/7</h3>
+                            <p className="text-slate-400">Tư vấn, chốt đơn và xử lý khiếu nại tự động với độ chính xác 99%.</p>
+                        </div>
+                        <div className="p-6 glass-panel rounded-2xl">
+                            <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 mb-4"><CreditCard /></div>
+                            <h3 className="text-xl font-bold mb-2">Thanh Toán Tức Thì</h3>
+                            <p className="text-slate-400">Tích hợp cổng thanh toán đa kênh, tự động hóa quy trình hoàn tiền.</p>
+                        </div>
+                        <div className="p-6 glass-panel rounded-2xl">
+                            <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center text-green-400 mb-4"><BarChart3 /></div>
+                            <h3 className="text-xl font-bold mb-2">CRM & Báo Cáo</h3>
+                            <p className="text-slate-400">Lưu trữ dữ liệu khách hàng và phân tích doanh thu thời gian thực.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // --- COMPONENT: PRODUCT SHOWCASE (SIMULATED E-COMMERCE) ---
+        const ProductShowcase = ({ onChat, onBuy }) => (
+            <div className="min-h-screen bg-slate-900 p-4 md:p-8 fade-in">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                        <span className="text-blue-400 font-bold tracking-wider">BEST SELLER</span>
+                        <h2 className="text-4xl font-bold">Tai nghe HSTAI Pro X</h2>
+                        <p className="text-slate-400 text-lg">Công nghệ chống ồn chủ động AI, pin 40 giờ, kết nối không dây siêu tốc. Dành cho người chuyên nghiệp.</p>
+                        <div className="text-3xl font-bold text-white">$299.00 <span className="text-sm text-slate-500 line-through font-normal ml-2">$499.00</span></div>
+                        
+                        <div className="flex gap-4 pt-4">
+                            <button onClick={onBuy} className="flex-1 bg-white text-slate-900 py-4 rounded-xl font-bold hover:bg-slate-200 transition">Mua Ngay</button>
+                            <button onClick={onChat} className="flex-1 border border-slate-700 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition flex items-center justify-center gap-2">
+                                <MessageSquare size={20} /> Hỏi AI
+                            </button>
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-blue-500 blur-[100px] opacity-20"></div>
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2940&auto=format&fit=crop" className="relative rounded-3xl shadow-2xl border border-slate-700 w-full object-cover aspect-square" alt="Product" />
+                    </div>
+                </div>
+            </div>
+        );
+
+        // --- COMPONENT: AI CHATBOT ---
+        const ChatBot = ({ onClose }) => {
+            const [messages, setMessages] = useState([
+                { id: 1, text: "Chào bạn! Tôi là HSTAI Agent. Tôi có thể giúp gì cho bạn về sản phẩm hôm nay?", sender: 'ai' }
+            ]);
+            const [input, setInput] = useState("");
+            const messagesEndRef = useRef(null);
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            };
+
+            useEffect(scrollToBottom, [messages]);
+
+            const handleSend = () => {
+                if (!input.trim()) return;
+                const userMsg = { id: Date.now(), text: input, sender: 'user' };
+                setMessages(prev => [...prev, userMsg]);
+                setInput("");
+
+                // Simulate AI Response
+                setTimeout(() => {
+                    let aiText = "Sản phẩm này đang được giảm giá 40% hôm nay. Bạn có muốn tôi hỗ trợ đặt hàng không?";
+                    if (input.toLowerCase().includes("giá")) aiText = "Giá hiện tại là $299, đã bao gồm VAT và miễn phí vận chuyển toàn cầu.";
+                    if (input.toLowerCase().includes("bảo hành")) aiText = "Chúng tôi bảo hành 2 năm 1 đổi 1 cho mọi lỗi kỹ thuật từ nhà sản xuất.";
+                    
+                    setMessages(prev => [...prev, { id: Date.now()+1, text: aiText, sender: 'ai' }]);
+                }, 1000);
+            };
+
+            return (
+                <div className="fixed bottom-4 right-4 w-96 h-[600px] glass-panel rounded-2xl flex flex-col shadow-2xl z-50 border border-blue-500/30 fade-in">
+                    <div className="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-800/50 rounded-t-2xl">
+                        <div className="flex items-center gap-3">
+                            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="font-bold">HSTAI Support</span>
+                        </div>
+                        <button onClick={onClose} className="text-slate-400 hover:text-white"><X size={20}/></button>
+                    </div>
+                    
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                        {messages.map(msg => (
+                            <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[80%] p-3 text-sm ${msg.sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}`}>
+                                    {msg.text}
+                                </div>
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    <div className="p-4 border-t border-slate-700 bg-slate-800/50 rounded-b-2xl flex gap-2">
+                        <input 
+                            type="text" 
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                            placeholder="Nhập tin nhắn..." 
+                            className="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
+                        />
+                        <button onClick={handleSend} className="bg-blue-600 p-2 rounded-lg hover:bg-blue-500 text-white"><Send size={20}/></button>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- COMPONENT: ADMIN DASHBOARD (CRM & REPORT) ---
+        const Dashboard = () => {
+            return (
+                <div className="min-h-screen bg-slate-900 p-8 fade-in">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-3xl font-bold">Dashboard Quản Trị</h2>
+                            <div className="flex items-center gap-4">
+                                <span className="text-green-400 flex items-center gap-2"><CheckCircle size={16}/> Hệ thống hoạt động ổn định</span>
+                                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center font-bold">A</div>
+                            </div>
+                        </div>
+
+                        {/* Stats Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                            <div className="glass-panel p-6 rounded-xl">
+                                <div className="text-slate-400 text-sm mb-1">Doanh thu hôm nay</div>
+                                <div className="text-3xl font-bold text-white">$12,450</div>
+                                <div className="text-green-400 text-sm mt-2">+15% so với hôm qua</div>
+                            </div>
+                            <div className="glass-panel p-6 rounded-xl">
+                                <div className="text-slate-400 text-sm mb-1">Đơn hàng mới</div>
+                                <div className="text-3xl font-bold text-white">48</div>
+                                <div className="text-green-400 text-sm mt-2">+5 đơn đang chờ xử lý</div>
+                            </div>
+                            <div className="glass-panel p-6 rounded-xl">
+                                <div className="text-slate-400 text-sm mb-1">Khách hàng CRM</div>
+                                <div className="text-3xl font-bold text-white">1,204</div>
+                                <div className="text-blue-400 text-sm mt-2">+12 mới trong 1h</div>
+                            </div>
+                            <div className="glass-panel p-6 rounded-xl">
+                                <div className="text-slate-400 text-sm mb-1">Tỷ lệ chốt AI</div>
+                                <div className="text-3xl font-bold text-white">68%</div>
+                                <div className="text-purple-400 text-sm mt-2">Cao hơn trung bình 20%</div>
+                            </div>
+                        </div>
+
+                        {/* Chart Area */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2 glass-panel p-6 rounded-xl">
+                                <h3 className="text-xl font-bold mb-4">Biểu đồ doanh thu (Real-time)</h3>
+                                <div className="h-64 bg-slate-800/50 rounded-lg flex items-end justify-between px-4 pb-4 gap-2">
+                                    {[40, 65, 45, 80, 55, 90, 70, 85, 60, 95, 75, 100].map((h, i) => (
+                                        <div key={i} className="w-full bg-blue-600/80 hover:bg-blue-500 transition-all rounded-t-sm" style={{height: `${h}%`}}></div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            {/* Recent Orders / CRM */}
+                            <div className="glass-panel p-6 rounded-xl">
+                                <h3 className="text-xl font-bold mb-4">Khách hàng mới (CRM)</h3>
+                                <div className="space-y-4">
+                                    {[1,2,3,4,5].map((i) => (
+                                        <div key={i} className="flex items-center justify-between border-b border-slate-700 pb-3 last:border-0">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs">U{i}</div>
+                                                <div>
+                                                    <div className="font-bold text-sm">Nguyễn Văn A</div>
+                                                    <div className="text-xs text-slate-400">Đã mua: HSTAI Pro X</div>
+                                                </div>
+                                            </div>
+                                            <span className="text-green-400 text-xs font-bold">+$299</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- MAIN APP CONTROLLER ---
+        const App = () => {
+            const [view, setView] = useState('landing'); // landing, product, dashboard
+            const [showChat, setShowChat] = useState(false);
+
+            const navToProduct = () => setView('product');
+            const navToDashboard = () => setView('dashboard');
+            const navToLanding = () => setView('landing');
+
+            return (
+                <div className="antialiased">
+                    {/* Top Navigation */}
+                    <nav className="fixed top-0 w-full z-40 glass-panel border-b-0 border-b-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center gap-2 cursor-pointer" onClick={navToLanding}>
+                                    <div className="w-8 h-8 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white">H</div>
+                                    <span className="font-bold text-xl tracking-tight">HSTAI 777</span>
+                                </div>
+                                <div className="hidden md:block">
+                                    <div className="ml-10 flex items-baseline space-x-4">
+                                        <button onClick={navToLanding} className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium">Trang chủ</button>
+                                        <button onClick={navToProduct} className="hover:bg-slate-800 px-3 py-2 rounded-md text-sm font-medium">Sản phẩm Demo</button>
+                                        <button onClick={navToDashboard} className="bg-slate-800 text-white px-3 py-2 rounded-md text-sm font-medium">Admin CRM</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Main Content Area */}
+                    <main className="pt-16">
+                        {view === 'landing' && <LandingPage onEnter={navToProduct} />}
+                        {view === 'product' && <ProductShowcase onChat={() => setShowChat(true)} onBuy={() => alert("Chuyển hướng đến cổng thanh toán Stripe/PayPal...")} />}
+                        {view === 'dashboard' && <Dashboard />}
+                    </main>
+
+                    {/* Floating Chat Button (If not in chat view) */}
+                    {view !== 'dashboard' && !showChat && (
+                        <button 
+                            onClick={() => setShowChat(true)}
+                            className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center z-40 transition-transform hover:scale-110"
+                        >
+                            <MessageSquare size={24} />
+                        </button>
+                    )}
+
+                    {/* Chat Widget Overlay */}
+                    {showChat && <ChatBot onClose={() => setShowChat(false)} />}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

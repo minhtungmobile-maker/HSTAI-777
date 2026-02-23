@@ -1,0 +1,28 @@
+﻿version: '3.8'
+services:
+  hstai-db:
+    image: mongo:latest
+    container_name: hstai_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  
+  hstai-api:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://hstai-db:27017/hstai777
+    depends_on:
+      - hstai-db
+
+  hstai-client:
+    build: ./client
+    ports:
+      - "3000:80"
+    depends_on:
+      - hstai-api
+
+volumes:
+  mongo_data:
